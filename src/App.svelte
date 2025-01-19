@@ -1,46 +1,74 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import Room from "./Room.svelte";
+  async function load() {
+    const resp = await fetch(
+      `https://webapi.syncroom.appservice.yamaha.com/rooms/guest/online`,
+    );
+    return (await resp.json()) as Online;
+  }
+
+  let filterLock = "かぎなし";
+  let filterCountry = "にほん";
+
+  function filter(
+    rooms: Online["rooms"],
+    filterLock: string,
+    filterCountry: string,
+  ) {
+    return rooms
+      .filter((r) => {
+        if (filterLock === "かぎなし") return r.needPasswd === false;
+        if (filterLock === "かぎあり") return r.needPasswd === true;
+        return true;
+      })
+      .filter((r) => {
+        const provider = r.ownerUser.idProvider;
+        if (filterCountry === "にほん") return provider === "ymid-jp";
+        if (filterCountry === "かんこく") return provider === "ymid-kr";
+        return true;
+      });
+  }
 </script>
 
+<h1>SYNCROOM2 Room Viewer</h1>
+<div class="selector">
+  <select on:change={(e) => (filterLock = e.currentTarget.value)}>
+    <option>かぎなし</option>
+    <option>かぎあり</option>
+    <option>どっちも</option>
+  </select>
+  <select on:change={(e) => (filterCountry = e.currentTarget.value)}>
+    <option>にほん</option>
+    <option>かんこく</option>
+    <option>どこでも</option>
+  </select>
+</div>
 <main>
-  <img src="/vite-deno.svg" alt="Vite with Deno" />
-  <div>
-    <a href="https://vite.dev" target="_blank" rel="noreferrer"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  {#await load()}
+    <p>loading...</p>
+  {:then data}
+    {#each filter(data.rooms, filterLock, filterCountry) as room}
+      <Room {room} />
+    {/each}
+  {/await}
 </main>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
+  h1 {
+    text-align: center;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+  .selector {
+    text-align: center;
+    margin-bottom: 20px;
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
+  select {
+    width: 200px;
+    height: 50px;
+    text-align: center;
   }
-  .read-the-docs {
-    color: #888;
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 </style>

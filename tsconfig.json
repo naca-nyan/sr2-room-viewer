@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "types": ["./src/types.d.ts"]
+  }
+}
