@@ -1,5 +1,11 @@
 <script lang="ts">
     import Avatar from "./Avatar.svelte";
+    export function joinUri(groupname, password, pid, mode, room_id) {
+        const obj = { mode, pid, groupname, password, room_id };
+        const params = new URLSearchParams(obj);
+        const str = "joingroup?" + params.toString();
+        return "syncroom2:" + btoa(str);
+    }
     const lockImg =
         "https://syncroom.yamaha.com/assets-v2/img/play/room/icon_lock.png";
     let { room }: { room: Room } = $props();
@@ -22,7 +28,12 @@
     {#if room.needPasswd}
         <img class="lock" src={lockImg} alt="lock" />
     {/if}
-    <h1>{room.name}</h1>
+    <h1>
+        <a href={joinUri(room.name, "", 4, 2, room.roomId)}>
+            {room.name}
+        </a>
+    </h1>
+
     <ul class="avatar">
         {#each room.members as member}
             <Avatar {member} />
