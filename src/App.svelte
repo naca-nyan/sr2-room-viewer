@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Room from "./Room.svelte";
+  import RoomCard from "./Room.svelte";
   async function load() {
     const resp = await fetch(
       `https://webapi.syncroom.appservice.yamaha.com/rooms/guest/online`,
@@ -10,11 +10,7 @@
   let filterLock = "かぎなし";
   let filterCountry = "にほん";
 
-  function filter(
-    rooms: Online["rooms"],
-    filterLock: string,
-    filterCountry: string,
-  ) {
+  function filter(rooms: Room[], filterLock: string, filterCountry: string) {
     return rooms
       .filter((r) => {
         if (filterLock === "かぎなし") return r.needPasswd === false;
@@ -48,7 +44,7 @@
     <p>loading...</p>
   {:then data}
     {#each filter(data.rooms, filterLock, filterCountry) as room}
-      <Room {room} />
+      <RoomCard {room} />
     {/each}
   {/await}
 </main>
