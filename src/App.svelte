@@ -43,7 +43,7 @@
   {#await load()}
     <p>loading...</p>
   {:then data}
-    {#each filter(data.rooms, filterLock, filterCountry) as room}
+    {#each filter(data.rooms, filterLock, filterCountry) as room (room.roomId)}
       <RoomCard {room} />
     {/each}
   {/await}

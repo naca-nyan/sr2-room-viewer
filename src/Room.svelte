@@ -35,7 +35,7 @@
     </h1>
 
     <ul class="avatar">
-        {#each room.members as member}
+        {#each room.members as member (member.userId)}
             <Avatar {member} />
         {/each}
     </ul>
