@@ -18,7 +18,7 @@
   }
   function linkifyXAccount(text: string) {
     if (!text) return "";
-    const regex = /@[^\s]+/g;
+    const regex = /@[a-zA-Z0-9_]+/g;
     return text.replace(regex, (match) => {
       const screenName = match.slice(1);
       return `<a href="https://x.com/${screenName}" target="_blank" rel="noopener noreferrer">${match}</a>`;
