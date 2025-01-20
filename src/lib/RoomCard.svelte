@@ -30,9 +30,8 @@
         <img class="lock" src={lockImg} alt="lock" />
     {/if}
     <h1>
-        <a href={joinUri(room.name, "", 4, 2, room.roomId)}>
-            {room.name}
-        </a>
+        <a href={joinUri(room.name, "", 4, 2, room.roomId)}>{room.name}</a>
+        <small>({room.members.length}/{room.maxMemberCount})</small>
     </h1>
 
     <ul class="avatar">
