@@ -1,10 +1,16 @@
 <script lang="ts">
   import RoomCard from "./lib/RoomCard.svelte";
   import { online } from "./store";
-  let filterLock = "かぎなし";
-  let filterCountry = "にほん";
+  const lockValues = ["かぎなし", "かぎあり", "どっちも"] as const;
+  let filterLock = $state<(typeof lockValues)[number]>("かぎなし");
+  const countryValues = ["にほん", "かんこく", "どこでも"] as const;
+  let filterCountry = $state<(typeof countryValues)[number]>("にほん");
 
-  function filter(rooms: Room[], filterLock: string, filterCountry: string) {
+  function filter(
+    rooms: Room[],
+    filterLock: (typeof lockValues)[number],
+    filterCountry: (typeof countryValues)[number],
+  ) {
     return rooms
       .filter((r) => {
         if (filterLock === "かぎなし") return r.needPasswd === false;
@@ -22,15 +28,11 @@
 
 <h1>SYNCROOM2 Room Viewer</h1>
 <div class="selector">
-  <select on:change={(e) => (filterLock = e.currentTarget.value)}>
-    <option>かぎなし</option>
-    <option>かぎあり</option>
-    <option>どっちも</option>
+  <select bind:value={filterLock}>
+    {#each lockValues as v}<option>{v}</option>{/each}
   </select>
-  <select on:change={(e) => (filterCountry = e.currentTarget.value)}>
-    <option>にほん</option>
-    <option>かんこく</option>
-    <option>どこでも</option>
+  <select bind:value={filterCountry}>
+    {#each countryValues as v}<option>{v}</option>{/each}
   </select>
 </div>
 <main>
