@@ -33,7 +33,7 @@
   </h1>
 
   <ul class="avatar">
-    {#each room.members as member (member.userId)}
+    {#each room.members as member}
       <Avatar {member} />
     {:else}
       <small>（メンバーなし）</small>
