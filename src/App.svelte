@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
   import RoomCard from "./lib/RoomCard.svelte";
+  import Switch from "./lib/Switch.svelte";
   import { online } from "./store";
   const lockValues = ["かぎなし", "かぎあり", "どっちも"] as const;
   let filterLock = $state<(typeof lockValues)[number]>("かぎなし");
@@ -24,6 +26,13 @@
         return true;
       });
   }
+
+  let autosync = $state(true);
+  const refreshRate = 30 * 1000;
+  const interval = setInterval(() => {
+    if (autosync) online.sync();
+  }, refreshRate);
+  onDestroy(() => clearInterval(interval));
 </script>
 
 <h1>SYNCROOM2 Room Viewer</h1>
@@ -34,6 +43,9 @@
   <select bind:value={filterCountry}>
     {#each countryValues as v}<option>{v}</option>{/each}
   </select>
+</div>
+<div class="autosync">
+  自動更新(30秒) <Switch bind:checked={autosync} />
 </div>
 <main>
   {#if $online === null}
@@ -59,7 +71,6 @@
   }
   .selector {
     text-align: center;
-    margin-bottom: 20px;
   }
   select {
     width: 200px;
@@ -70,5 +81,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  .autosync {
+    text-align: end;
+    padding-right: 120px;
   }
 </style>
