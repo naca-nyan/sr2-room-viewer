@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "svelte.enable-ts-plugin": true,
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  }
+}
