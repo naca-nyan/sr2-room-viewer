@@ -1,5 +1,6 @@
 <script lang="ts">
     import Avatar from "./Avatar.svelte";
+    import { tags as i18n_tags } from "./i18n";
     export function joinUri(groupname, password, pid, mode, room_id) {
         const obj = { mode, pid, groupname, password, room_id };
         const params = new URLSearchParams(obj);
@@ -37,8 +38,18 @@
     <ul class="avatar">
         {#each room.members as member (member.userId)}
             <Avatar {member} />
+        {:else}
+            <small>（メンバーなし）</small>
         {/each}
     </ul>
+    <div class="tag">
+        {#each room.tags as tag}
+            <span>{i18n_tags(tag)}</span>
+        {/each}
+        {#each room.customTags as tag}
+            <span>{tag}</span>
+        {/each}
+    </div>
     <p class="description">
         {#if room.description}
             {@html linkify(room.description)}
@@ -80,5 +91,17 @@
     }
     p.description small {
         color: #c4c4c4;
+    }
+    div.tag {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    div.tag span {
+        color: #020055;
+        font-size: 0.8rem;
+        background-color: #eff1ff;
+        border-radius: 20px;
+        margin: 2px;
+        padding: 2px 10px;
     }
 </style>
