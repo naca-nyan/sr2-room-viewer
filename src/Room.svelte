@@ -55,7 +55,7 @@
         padding: 15px;
         margin: 10px;
         width: 100%;
-        @media (min-width: 600px) {
+        @media (min-width: 700px) {
             width: 300px;
         }
     }
