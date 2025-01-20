@@ -41,10 +41,12 @@
 </div>
 <main>
   {#await load()}
-    <p>loading...</p>
+    <h2>loading...</h2>
   {:then data}
     {#each filter(data.rooms, filterLock, filterCountry) as room (room.roomId)}
       <RoomCard {room} />
+    {:else}
+      <h2>（ルームなし）</h2>
     {/each}
   {/await}
 </main>
@@ -52,6 +54,12 @@
 <style>
   h1 {
     text-align: center;
+    font-size: 2.5rem;
+  }
+  h2 {
+    margin-top: 50px;
+    font-size: 1.3rem;
+    color: #757575;
   }
   .selector {
     text-align: center;
