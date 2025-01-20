@@ -1,6 +1,6 @@
 <script lang="ts">
     import Avatar from "./Avatar.svelte";
-    import { tags as i18n_tags } from "./i18n";
+    import { tags as i18n_tags } from "../i18n";
     export function joinUri(groupname, password, pid, mode, room_id) {
         const obj = { mode, pid, groupname, password, room_id };
         const params = new URLSearchParams(obj);

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import RoomCard from "./Room.svelte";
+  import RoomCard from "./lib/RoomCard.svelte";
   async function load() {
     const resp = await fetch(
       `https://webapi.syncroom.appservice.yamaha.com/rooms/guest/online`,
