@@ -1,12 +1,6 @@
 <script lang="ts">
   import RoomCard from "./lib/RoomCard.svelte";
-  async function load() {
-    const resp = await fetch(
-      `https://webapi.syncroom.appservice.yamaha.com/rooms/guest/online`,
-    );
-    return (await resp.json()) as Online;
-  }
-
+  import { online } from "./store";
   let filterLock = "かぎなし";
   let filterCountry = "にほん";
 
@@ -40,15 +34,15 @@
   </select>
 </div>
 <main>
-  {#await load()}
+  {#if $online === null}
     <h2>loading...</h2>
-  {:then data}
-    {#each filter(data.rooms, filterLock, filterCountry) as room (room.roomId)}
+  {:else}
+    {#each filter($online.rooms, filterLock, filterCountry) as room (room.roomId)}
       <RoomCard {room} />
     {:else}
       <h2>（ルームなし）</h2>
     {/each}
-  {/await}
+  {/if}
 </main>
 
 <style>
