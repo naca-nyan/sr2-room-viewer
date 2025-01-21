@@ -2,16 +2,14 @@
   import Avatar from "./Avatar.svelte";
   import { tags as i18n_tags } from "../i18n";
   import { temporaryMode } from "../store";
-  export function joinUri(groupname, password, pid, mode, room_id) {
+  let { room }: { room: Room } = $props();
+
+  function joinUri(groupname, password, pid, mode, room_id) {
     const obj = { mode, pid, groupname, password, room_id };
     const params = new URLSearchParams(obj);
     const str = "joingroup?" + params.toString();
     return "syncroom2:" + btoa(str);
   }
-  const lockImg =
-    "https://syncroom.yamaha.com/assets-v2/img/play/room/icon_lock.png";
-  let { room }: { room: Room } = $props();
-
   function linkify(text: string) {
     if (!text) return "";
     const maxLength = 36;
@@ -22,6 +20,10 @@
       return `<a href="${url}" target="_blank" rel="noopener noreferrer">${truncated}</a>`;
     });
   }
+  const lockImg = `https://syncroom.yamaha.com/assets-v2/img/play/room/icon_lock.png`;
+  const members = room.members.filter(
+    (m, i, arr) => arr.findIndex((n) => n.userId === m.userId) === i, // uniq by userId
+  );
   const mode = $derived($temporaryMode ? 3 : 2);
 </script>
 
@@ -35,7 +37,7 @@
   </h1>
 
   <ul class="avatar">
-    {#each room.members as member (member.userId)}
+    {#each members as member (member.userId)}
       <Avatar {member} />
     {:else}
       <small>（メンバーなし）</small>
