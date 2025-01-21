@@ -1,11 +1,20 @@
 <script lang="ts">
-  let { checked = $bindable() }: { checked: boolean } = $props();
+  let {
+    checked = $bindable(),
+    label,
+  }: {
+    checked: boolean;
+    label?: string;
+  } = $props();
 </script>
 
-<label class="switch">
-  <input type="checkbox" bind:checked />
-  <span class="slider round"></span>
-</label>
+<div class="flex">
+  <label class="switch">
+    <input type="checkbox" bind:checked />
+    <span class="slider round"></span>
+  </label>
+  <small>{label}</small>
+</div>
 
 <style>
   :root {
@@ -74,5 +83,17 @@
 
   .slider.round:before {
     border-radius: 50%;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 3px;
+  }
+
+  small {
+    font-size: 0.8em;
+    color: #020055;
   }
 </style>

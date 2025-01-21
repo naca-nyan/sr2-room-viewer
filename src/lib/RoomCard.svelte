@@ -1,6 +1,7 @@
 <script lang="ts">
   import Avatar from "./Avatar.svelte";
   import { tags as i18n_tags } from "../i18n";
+  import { temporaryMode } from "../store";
   export function joinUri(groupname, password, pid, mode, room_id) {
     const obj = { mode, pid, groupname, password, room_id };
     const params = new URLSearchParams(obj);
@@ -21,6 +22,7 @@
       return `<a href="${url}" target="_blank" rel="noopener noreferrer">${truncated}</a>`;
     });
   }
+  const mode = $derived($temporaryMode ? 3 : 2);
 </script>
 
 <article>
@@ -28,7 +30,7 @@
     <img class="lock" src={lockImg} alt="lock" />
   {/if}
   <h1>
-    <a href={joinUri(room.name, "", 4, 2, room.roomId)}>{room.name}</a>
+    <a href={joinUri(room.name, "", 4, mode, room.roomId)}>{room.name}</a>
     <small>({room.members.length}/{room.maxMemberCount})</small>
   </h1>
 

@@ -3,6 +3,7 @@
   import RoomCard from "./lib/RoomCard.svelte";
   import Switch from "./lib/Switch.svelte";
   import { online, filterLock, filterCountry, autosync } from "./store";
+  import { temporaryMode } from "./store";
   import { lockValues, countryValues } from "./store";
   import type { LockValue, CountryValue } from "./store";
   function filter(rooms: Room[], l: LockValue, c: CountryValue) {
@@ -36,8 +37,9 @@
     {#each countryValues as v}<option>{v}</option>{/each}
   </select>
 </div>
-<div class="autosync">
-  自動更新(30秒) <Switch bind:checked={$autosync} />
+<div class="toggles">
+  <Switch bind:checked={$temporaryMode} label="仮入室モード" />
+  <Switch bind:checked={$autosync} label="自動更新(30秒)" />
 </div>
 <main>
   {#if $online === null}
@@ -74,8 +76,10 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .autosync {
-    text-align: end;
-    padding-right: 120px;
+  .toggles {
+    display: flex;
+    justify-content: end;
+    margin-top: 6px;
+    margin-right: 120px;
   }
 </style>

@@ -61,3 +61,10 @@ export const autosync = createLocalStorageStore<boolean>(
   (v) => v.toString(),
   (s) => s === "true",
 );
+
+export const temporaryMode = createLocalStorageStore<boolean>(
+  "temporaryMode",
+  false,
+  (v) => v.toString(),
+  (s) => s === "true",
+);
