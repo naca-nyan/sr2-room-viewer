@@ -62,7 +62,10 @@
 
 <style>
   article {
-    background-color: #fff;
+    background-color: #191d52;
+    @media (prefers-color-scheme: light) {
+      background-color: #fff;
+    }
     border-radius: 23px;
     padding: 15px;
     margin: 10px;
@@ -98,9 +101,13 @@
     flex-wrap: wrap;
   }
   div.tag span {
-    color: #020055;
+    color: #78789c;
+    background-color: #000636;
+    @media (prefers-color-scheme: light) {
+      color: #020055;
+      background-color: #eff1ff;
+    }
     font-size: 0.8rem;
-    background-color: #eff1ff;
     border-radius: 20px;
     margin: 2px;
     padding: 2px 10px;

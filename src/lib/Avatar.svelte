@@ -47,7 +47,10 @@
     display: block;
     font-size: 0.7rem;
     line-height: 5px;
-    color: #bbc6ca;
+    color: #6b96be;
+    @media (prefers-color-scheme: light) {
+      color: #bbc6ca;
+    }
   }
   img {
     width: 35px;
