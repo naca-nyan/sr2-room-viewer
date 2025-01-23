@@ -78,8 +78,11 @@
   }
   .toggles {
     display: flex;
-    justify-content: end;
+    justify-content: center;
     margin-top: 6px;
-    margin-right: 120px;
+    @media (min-width: 700px) {
+      justify-content: end;
+      margin-right: 120px;
+    }
   }
 </style>
